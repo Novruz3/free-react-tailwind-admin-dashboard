@@ -4,7 +4,7 @@ import { lazy } from "react";
 import { Toaster } from "react-hot-toast";
 
 const AppLayout = lazy(() => import("./layout/AppLayout"));
-const Products = lazy(() => import("./pages/Products"));
+// const Products = lazy(() => import("./pages/Products"));
 const AuthOnly = lazy(() => import("./pages/AuthPages/AuthOnly"));
 const Shops = lazy(() => import("./pages/Shops"));
 const Protected = lazy(() => import("./pages/AuthPages/Protected"));
@@ -24,7 +24,7 @@ export default function App() {
           <Route element={<Protected />}>
             <Route path="/" element={<AppLayout />}>
               <Route index element={<Shops />} />
-              <Route path="/products" element={<Products />} />
+              {/* <Route path="/products" element={<Products />} /> */}
             </Route>
             <Route path="/signup" element={<SignUp />} />
             <Route path="*" element={<NotFound />} />
