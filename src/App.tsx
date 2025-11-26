@@ -3,12 +3,11 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import { lazy } from "react";
 import { Toaster } from "react-hot-toast";
 
-const Home = lazy(() => import("./pages/Home"));
 const AppLayout = lazy(() => import("./layout/AppLayout"));
 const Products = lazy(() => import("./pages/Products"));
+const AuthOnly = lazy(() => import("./pages/AuthPages/AuthOnly"));
 const Shops = lazy(() => import("./pages/Shops"));
 const Protected = lazy(() => import("./pages/AuthPages/Protected"));
-const UserProfiles = lazy(() => import("./pages/UserProfiles"));
 const SignIn = lazy(() => import("./pages/AuthPages/SignIn"));
 const SignUp = lazy(() => import("./pages/AuthPages/SignUp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -19,24 +18,17 @@ export default function App() {
       <Toaster position="top-center" reverseOrder={false} />
       <Router>
         <Routes>
-          {/* <Route
-            element={<Protected allowedRoles={["admin", "super-admin"]} />}
-          >
+          <Route element={<AuthOnly />}>
+            <Route path="/signin" element={<SignIn />} />
+          </Route>
+          <Route element={<Protected />}>
             <Route path="/" element={<AppLayout />}>
-              <Route index element={<Home />} />
-            </Route>
-          </Route> */}
-          <Route element={<Protected allowedRoles={["super-admin"]} />}>
-            <Route path="/" element={<AppLayout />}>
-              <Route index element={<Home />} />
+              <Route index element={<Shops />} />
               <Route path="/products" element={<Products />} />
-              <Route path="/profile" element={<UserProfiles />} />
-              <Route path="/shops" element={<Shops />} />
             </Route>
             <Route path="/signup" element={<SignUp />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollToTop />
       </Router>

@@ -3,40 +3,43 @@ import moment from "moment";
 import { get } from "./api_helper";
 
 export default function authToken() {
-  const data = localStorage.getItem("authUser") as string;
+  const data = sessionStorage.getItem("authUser");
+  if (!data) return "";
+
   const obj = JSON.parse(data);
-  if (obj && obj.access_token) {
-    return obj.access_token;
-  } else {
-    return {};
-  }
+  return obj?.access_token || "";
 }
 
 export async function refreshAccessToken() {
-  const data = localStorage.getItem("authUser") as string;
+  const data = sessionStorage.getItem("authUser");
   let obj;
+
   try {
-    obj = JSON.parse(data ? data : "");
-  } catch (err) {
+    obj = data ? JSON.parse(data) : { refresh_token: "" };
+  } catch {
     obj = { refresh_token: "" };
   }
+
   try {
     const res: any = await get("/auth/load-user", {
       headers: { Authorization: `Bearer ${obj.refresh_token}` },
     });
-    localStorage.setItem(
+
+    sessionStorage.setItem(
       "authUser",
       JSON.stringify({ ...obj, access_token: res.access_token })
     );
-    localStorage.setItem(
+
+    sessionStorage.setItem(
       "accessTokenCreatedTime",
       moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     );
+
     return false;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      localStorage.removeItem("authUser");
-      localStorage.removeItem("accessTokenCreatedTime");
+      sessionStorage.removeItem("authUser");
+      sessionStorage.removeItem("accessTokenCreatedTime");
     }
     console.log(err);
     return true;

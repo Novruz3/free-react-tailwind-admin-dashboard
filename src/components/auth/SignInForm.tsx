@@ -8,7 +8,6 @@ import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../../api/axiosInstance";
 import toast from "react-hot-toast";
-import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -46,18 +45,16 @@ export default function SignInForm() {
       try {
         const res: any = await mutation.mutateAsync(values);
         if (res.data.access_token) {
-          toast.success("You have successfully logged in");
-          localStorage.setItem(
+          const expiresAt = Date.now() + 24 * 1000 * 60 * 60;
+          sessionStorage.setItem(
             "authUser",
             JSON.stringify({
               access_token: res.data.access_token,
               full_name: res.data.admin.full_name,
+              expiresAt,
             })
           );
-          localStorage.setItem(
-            "accessTokenCreatedTime",
-            moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
-          );
+          toast.success("Logged in successfully");
           navigate("/");
           window.location.reload();
           resetForm();
@@ -141,7 +138,7 @@ export default function SignInForm() {
               <div>
                 <Button
                   className="w-full"
-                  size="sm"
+                  size="md"
                   type="submit"
                   disabled={!formik.isValid || mutation.isPending}
                 >

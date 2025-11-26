@@ -31,9 +31,3 @@ export async function patch<T, R>(
     .patch(url, { ...data }, { ...config })
     .then((response) => response.data);
 }
-
-export async function Delete<R>(url: string, config = {}): Promise<R> {
-  return axiosInstancePrivate
-    .delete(url, { ...config })
-    .then((response) => response.data);
-}
