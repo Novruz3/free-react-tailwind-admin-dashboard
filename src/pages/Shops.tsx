@@ -10,17 +10,19 @@ import { getShops } from "../api/queries/Getters";
 import { getBaseUrl } from "../utils/helpers";
 
 const tableHead: string[] = [
-  "Shop",
-  "Name",
-  "Address",
-  "Coordinate",
-  "Products at home",
-  "Delivery service",
-  "Phone Numbers",
-  "Shop Owner",
-  "Shop Center",
-  "Offial Shop",
-  "Actions",
+  "Surat",
+  "Ady (tm)",
+  "Ady (ru)",
+  "Salgysy (tm)",
+  "Salgysy (ru)",
+  "Kordinatalary",
+  "Dükanyň harytlary öýde satylýarmy?",
+  "Eltip bermek hyzmaty barmy?",
+  "Telefon belgileri",
+  "Dükanyň eýesi",
+  "Söwda merkezi",
+  "Offisalny dükanmy?",
+  "Funksiýalar",
 ];
 
 const Shops: React.FC = () => {
@@ -61,7 +63,7 @@ const Shops: React.FC = () => {
       />
       <PageMeta title="Shops" description="Shops" />
       <PageBreadcrumb pageTitle="Shops" />
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-sm">
         <div className="flex flex-col gap-6">
           <TableComp
             search={search}
@@ -100,7 +102,9 @@ const Shops: React.FC = () => {
                   />
                 </TableCell>
                 <TableCell>{shop.name_tm}</TableCell>
+                <TableCell>{shop.name_ru}</TableCell>
                 <TableCell>{shop.address_tm}</TableCell>
+                <TableCell>{shop.address_ru}</TableCell>
                 <TableCell>
                   {shop.latitude}, {shop.longitude}
                 </TableCell>

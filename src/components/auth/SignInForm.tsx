@@ -139,7 +139,6 @@ export default function SignInForm() {
                 <Button
                   className="w-full"
                   size="md"
-                  type="submit"
                   disabled={!formik.isValid || mutation.isPending}
                 >
                   {mutation.isPending ? "Signing in..." : "Sign in"}
